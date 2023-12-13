@@ -1,0 +1,28 @@
+# Logs
+*.log
+
+# Dependency directory
+node_modules
+
+# Trash
+.DS_Store
+
+#IDEs
+.idea
+.vscode
+
+# ESLint caches
+.eslintcache
+
+# Dynamically processed files
+reports
+coverage
+build
+build-server
+errorshots
+i18n
+!__mocks__/nordic/i18n
+tests/e2e/cypress/screenshots
+
+# Mocks
+mocks/development/
