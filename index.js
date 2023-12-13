@@ -18,4 +18,8 @@ app.post('/webhook', (req, res) => {
     res.status(200).end();
 });
 
+app.get('/webhook', (req, res) => {
+    res.send('Hello World!');
+});
+
 app.listen(3000, () => console.log('Aplicación escuchando en el puerto 3000!'));
