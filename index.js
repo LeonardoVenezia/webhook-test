@@ -6,6 +6,7 @@ app.use(bodyParser.json());
 
 app.post('/webhook', (req, res) => {
     console.log('Webhook recibido!');
+    console.log(req.body);
     if(req.body.pusher) {
         console.log(`Cambios pusheados por: ${req.body.pusher.name}`);
     }
