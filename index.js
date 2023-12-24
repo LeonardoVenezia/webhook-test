@@ -6,31 +6,39 @@ const axios = require('axios');
 app.use(bodyParser.json());
 
 app.post('/webhook', async (req, res) => {
-    const { action, pull_request } = req.body;
-    console.log('Webhook recibido!');
-    console.log(req.body);
-    console.log(JSON.stringify(req.body));
-    console.log('fin');
-    if(req.body.pusher) {
-        console.log(`Cambios pusheados por: ${req.body.pusher.name}`);
-    }
-    if(req.body.commits) {
-        req.body.commits.forEach(commit => {
-            console.log(`Commit hecho por: ${commit.author.name}`);
-            console.log(`Mensaje del commit: ${commit.message}`);
-        });
-    }
-    if (action === 'opened') {
-        const comment = {
-            body: 'Hola Mundo',
-        };
-
-        await axios.post(pull_request.comments_url, comment, {
+    const { action, pull_request, repository } = req.body;
+    if (action === 'opened' || action === 'synchronize') {
+        const { data: files } = await axios.get(pull_request.url + '/files', {
             headers: {
                 Authorization: `token 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`,
                 Accept: 'application/vnd.github.v3+json',
             },
         });
+        console.log('-.-.-.-.-.-.-.-.-');
+        console.log(files);
+        console.log('-.-.-.-.-.-.-.-.-');
+        if (files.length > 0) {
+            const firstFile = files[0];
+            const firstChangeLine = firstFile.patch.split('\n').find(line => line.startsWith('+') || line.startsWith('-'));
+            const lineNumber = Number(firstChangeLine.substr(1).split(' ')[0]);
+
+            const comment = {
+                body: 'Hola Mundo',
+                path: firstFile.filename,
+                position: lineNumber,
+            };
+
+            await axios.post(`${repository.url}/pulls/${pull_request.number}/reviews`, {
+                commit_id: pull_request.head.sha,
+                event: 'COMMENT',
+                comments: [comment],
+            }, {
+                headers: {
+                    Authorization: `token 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`,
+                    Accept: 'application/vnd.github.v3+json',
+                },
+            });
+        }
     }
     res.status(200).end();
 });
