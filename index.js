@@ -1,10 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const axios = require('axios');
 
 app.use(bodyParser.json());
 
-app.post('/webhook', (req, res) => {
+app.post('/webhook', async (req, res) => {
+    const { action, pull_request } = req.body;
     console.log('Webhook recibido!');
     console.log(req.body);
     console.log(JSON.stringify(req.body));
@@ -16,6 +18,18 @@ app.post('/webhook', (req, res) => {
         req.body.commits.forEach(commit => {
             console.log(`Commit hecho por: ${commit.author.name}`);
             console.log(`Mensaje del commit: ${commit.message}`);
+        });
+    }
+    if (action === 'opened') {
+        const comment = {
+            body: 'Hola Mundo',
+        };
+
+        await axios.post(pull_request.comments_url, comment, {
+            headers: {
+                Authorization: `token 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`,
+                Accept: 'application/vnd.github.v3+json',
+            },
         });
     }
     res.status(200).end();
