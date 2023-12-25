@@ -26,3 +26,6 @@ tests/e2e/cypress/screenshots
 
 # Mocks
 mocks/development/
+
+#env
+.env
