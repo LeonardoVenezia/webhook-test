@@ -10,7 +10,7 @@ app.post('/webhook', async (req, res) => {
     if (action === 'opened' || action === 'synchronize') {
         const { data: files } = await axios.get(pull_request.url + '/files', {
             headers: {
-                Authorization: `token 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`,
+                Authorization: `token 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`,
                 Accept: 'application/vnd.github.v3+json',
             },
         });
