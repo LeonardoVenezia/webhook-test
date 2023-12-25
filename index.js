@@ -6,6 +6,7 @@ const axios = require('axios');
 app.use(bodyParser.json());
 
 app.post('/webhook', async (req, res) => {
+    console.log('llega');
     const { action, pull_request, repository } = req.body;
     if (action === 'opened' || action === 'synchronize') {
         const { data: files } = await axios.get(pull_request.url + '/files', {
