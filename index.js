@@ -17,6 +17,7 @@ app.post('/webhook', async (req, res) => {
         console.log('-.-.-.-.-.-.-.-.-');
         console.log(files);
         console.log('-.-.-.-.-.-.-.-.-');
+
         if (files.length > 0) {
             const firstFile = files[0];
             const firstChangeLine = firstFile.patch.split('\n').find(line => line.startsWith('+') || line.startsWith('-'));
@@ -34,7 +35,7 @@ app.post('/webhook', async (req, res) => {
                 comments: [comment],
             }, {
                 headers: {
-                    Authorization: `token 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`,
+                    Authorization: `token ${process.env.TOKEN}`,
                     Accept: 'application/vnd.github.v3+json',
                 },
             });
