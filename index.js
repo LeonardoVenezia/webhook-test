@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 app.post('/webhook', async (req, res) => {
     console.log('llega');
     const { action, pull_request, repository } = req.body;
-    if (action === 'opened' || action === 'synchronize') {
+    // if (action === 'opened' || action === 'synchronize') {
         const { data: files } = await axios.get(pull_request.url + '/files', {
             headers: {
                 Authorization: `token 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`,
@@ -42,7 +42,7 @@ app.post('/webhook', async (req, res) => {
                 },
             });
         }
-    }
+    // }
     res.status(200).end();
 });
 
